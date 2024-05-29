@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordMaster: PWT-R Edition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        #root {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .feedback {
+            margin-top: 20px;
+        }
+
+        .meaning {
+            font-style: italic;
+            color: #555;
+        }
+
+        .progress {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script type="text/babel">
+            const questions = [
+                { word: "prefix", meaning: "letters that come before a root word" },
+                { word: "suffix", meaning: "letters that come after a root word" },
+                {
+                    word: "peripheral",
+                    meaning: "equipment that can be connected to computers",
+                },
+                { word: "synonym", meaning: "a word that has the same meaning" },
+                {
+                    word: "telework",
+                    meaning: "working at home, while communicating with IT",
+                },
+                {
+                    word: "mainframe",
+                    meaning:
+                        "a powerful computer that many users can use at the same time",
+                },
+                { word: "simultaneous", meaning: "happening at the same time" },
+                { word: "laptop", meaning: "an easy-carried computer" },
+                { word: "compliancy", meaning: "meeting the requirement" },
+                {
+                    word: "incorporate",
+                    meaning: "to include something as a part of something larger",
+                },
+                {
+                    word: "recognition",
+                    meaning: "the act of acknowledging something",
+                },
+                {
+                    word: "terminal",
+                    meaning:
+                        "any device for accessing information from a computer system",
+                },
+                {
+                    word: "joystick",
+                    meaning:
+                        "vertical handled input device to control a machine or play a game",
+                },
+                {
+                    word: "resolution",
+                    meaning: "image clarity based on the number of pixels",
+                },
+                {
+                    word: "ALU",
+                    meaning:
+                        "main part of a CPU that calculates input and performs logic functions",
+                },
+                {
+                    word: "expansion slot",
+                    meaning:
+                        "openings on the motherboard where additional boards can be inserted",
+                },
+                { word: "volatile", meaning: "temporary (related to memory)" },
+                {
+                    word: "BIOS",
+                    meaning:
+                        "set of computer instructions in firmware which controls input-output operations",
+                },
+                {
+                    word: "binary digit",
+                    meaning: "bit, notation where there are only 0 and 1",
+                },
+                {
+                    word: "synchronize",
+                    meaning: "to (cause to) happen at the same time",
+                },
+                {
+                    word: "capability",
+                    meaning: "the ability or power to do something",
+                },
+                {
+                    word: "bus",
+                    meaning: "a circuit that connects the CPU and other devices",
+                },
+                { word: "execute", meaning: "to do or perform program instructions" },
+                {
+                    word: "RAM/ROM",
+                    meaning: "computer memory; the volatile and the non-volatile",
+                },
+                {
+                    word: "ergonomics",
+                    meaning: "the study of work environment design",
+                },
+                {
+                    word: "posture",
+                    meaning: "the way in which your body is positioned",
+                },
+                {
+                    word: "eye strain",
+                    meaning: "vision discomfort caused by fatigue",
+                },
+                {
+                    word: "addiction",
+                    meaning: "the state of not being able to stop doing something",
+                },
+                { word: "adequate", meaning: "enough; sufficient; as required" },
+                {
+                    word: "wrist",
+                    meaning: "a part of the body between the hand and the arm",
+                },
+                { word: "toxic", meaning: "poisonous" },
+                { word: "dispose", meaning: "to get rid of or throw away" },
+                { word: "repetitive", meaning: "something done over and over again" },
+                { word: "diagnose", meaning: "to analyze the cause of something" },
+                {
+                    word: "cursor",
+                    meaning:
+                        "a moveable indicator to show the position on the computer screen",
+                },
+                {
+                    word: "word wrap",
+                    meaning:
+                        "a feature in a word processor that automatically moves words to the next line",
+                },
+                { word: "margin", meaning: "the border, edge of the paper" },
+                { word: "merge", meaning: "to join one thing with another" },
+                {
+                    word: "indent",
+                    meaning:
+                        "the start position further from the margin than the main part of the text",
+                },
+                {
+                    word: "distinctive",
+                    meaning: "unique features of a person or thing",
+                },
+                { word: "thesaurus", meaning: "a book of synonyms and antonyms" },
+                { word: "typeface", meaning: "the characteristic design of a font" },
+                {
+                    word: "replace",
+                    meaning: "to change something with something else",
+                },
+                {
+                    word: "align",
+                    meaning:
+                        "to put items in a word processed document into a straight line",
+                },
+                {
+                    word: "fractal",
+                    meaning: "a complicated geometric pattern in mathematics",
+                },
+                {
+                    word: "render",
+                    meaning:
+                        "to use colour and shading in order to make it appear solid and 3D",
+                },
+                {
+                    word: "interactive",
+                    meaning: "a feature of software that allows a two-way relation",
+                },
+                { word: "integrate", meaning: "to bring together and make whole" },
+                {
+                    word: "extracurricular",
+                    meaning: "outside the regular course of study",
+                },
+                {
+                    word: "compress",
+                    meaning: "to make a file smaller than its original size",
+                },
+                {
+                    word: "extension",
+                    meaning:
+                        "the suffix after the dot of a filename to indicate file type",
+                },
+                {
+                    word: "codec",
+                    meaning: "a software for compressing and decompressing data files",
+                },
+                { word: "adversary", meaning: "an enemy; an opponent" },
+                {
+                    word: "encyclopedia",
+                    meaning:
+                        "a collection of detailed articles that give background on a wide range of topics",
+                },
+                {
+                    word: "plug-in",
+                    meaning:
+                        "a software application that adds a specific feature to a browser",
+                },
+                {
+                    word: "rip",
+                    meaning: "to copy data from a media source onto a computer",
+                },
+                {
+                    word: "speech synthesis",
+                    meaning:
+                        "the process of computers producing sounds that resemble spoken words",
+                },
+                {
+                    word: "manipulate",
+                    meaning: "to customize or edit files; to handle or use skillfully",
+                },
+                { word: "pupil", meaning: "a student; a learner" },
+                {
+                    word: "clue",
+                    meaning: "a fact or object that helps to solve mysteries",
+                },
+                { word: "auxiliary", meaning: "giving assistance or support" },
+                {
+                    word: "tutorial",
+                    meaning: "a computer application that teaches how to do something",
+                },
+                {
+                    word: "built-in",
+                    meaning: "component that is contained within a device",
+                },
+                { word: "decode", meaning: "to decipher; to interpret" },
+                {
+                    word: "machine code",
+                    meaning: "the most basic programming language made of 0s and 1s",
+                },
+                {
+                    word: "compiler",
+                    meaning:
+                        "a program that translates high-level language into machine language",
+                },
+                {
+                    word: "high-level/low-level language",
+                    meaning: "programming codes; instructions for a computer to run",
+                },
+                { word: "bug", meaning: "a computer programming error" },
+                { word: "sophisticated", meaning: "highly complex and intricate" },
+                { word: "crucial", meaning: "of high importance; critical" },
+                {
+                    word: "conventional",
+                    meaning: "traditional; existing from before",
+                },
+                {
+                    word: "substitute",
+                    meaning: "something used to replace something else",
+                },
+                {
+                    word: "abbreviation",
+                    meaning: "a shortened form of a word or phrase",
+                },
+                {
+                    word: "applet",
+                    meaning:
+                        "a graphical Java program that runs automatically in a web browser",
+                },
+                { word: "successive", meaning: "consecutive; happening in order" },
+                {
+                    word: "encrypt",
+                    meaning:
+                        "a way of making the data accessible only to those with a key",
+                },
+                {
+                    word: "defragment",
+                    meaning: "to organize data close together on a hard disk",
+                },
+                {
+                    word: "initialize",
+                    meaning: "to make a disk so that data can be recorded on it",
+                },
+                {
+                    word: "cyberslack",
+                    meaning:
+                        "someone who uses the computer at work for personal purposes",
+                },
+                {
+                    word: "transmission",
+                    meaning: "to send data from one place to another",
+                },
+                {
+                    word: "optimizer",
+                    meaning:
+                        "a program that maximizes the performance of your computer",
+                },
+                { word: "cyborg", meaning: "a being that is part robot" },
+                { word: "consent", meaning: "permission" },
+                {
+                    word: "malware",
+                    meaning: "harmful software that damages a computer",
+                },
+                {
+                    word: "trial",
+                    meaning:
+                        "using a software before buying it to inspect its functions",
+                },
+                {
+                    word: "spyware",
+                    meaning:
+                        "a program that secretly sends information from your computer to another",
+                },
+                {
+                    word: "infiltrate",
+                    meaning: "to access a computer, usually without permission",
+                },
+                { word: "comprise", meaning: "to include; is made of" },
+                {
+                    word: "peer-to-peer",
+                    meaning:
+                        "type of network where all the computers have the same capabilities",
+                },
+                {
+                    word: "classify",
+                    meaning: "to put items into groups or categories",
+                },
+                {
+                    word: "terrestrial",
+                    meaning: "of the earth; without using satellites",
+                },
+                {
+                    word: "aerial",
+                    meaning: "(a signal) sent through the air without going into space",
+                },
+                { word: "enthusiastic", meaning: "very excited about" },
+                { word: "plentiful", meaning: "abundant; a sufficient amount of" },
+                {
+                    word: "compatible",
+                    meaning: "works together well with other components",
+                },
+                { word: "reliable", meaning: "works smoothly without any trouble" },
+                {
+                    word: "spacious",
+                    meaning: "having lots of room; having a large memory",
+                },
+                {
+                    word: "proprietary",
+                    meaning: "requiring a license for usage; not freeware",
+                },
+                { word: "qualify", meaning: "to modify; to describe" },
+                {
+                    word: "warranty",
+                    meaning:
+                        "a service policy to fix or replace broken parts for a specified time",
+                },
+            ];
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1)); // ランダムなインデックスを取得する
+                    [array[i], array[j]] = [array[j], array[i]]; // 要素を入れ替える
+                }
+                return array; // シャッフル後の配列を返す
+            }
+
+            const shuffledQuestions = shuffle([...questions]); // クイズ開始時に問題をシャッフルする
+
+            function getOptions(correctWord) {
+                const options = shuffle([...questions.map((q) => q.word)]).slice(0, 4); // 問題の単語を配列にコピーしてシャッフルし、4つ取得
+                if (!options.includes(correctWord)) {
+                    // 問題の単語が配列に含まれていない場合
+                    options[Math.floor(Math.random() * options.length)] = correctWord; // ランダムなインデックスに正解の単語を代入する
+                }
+                return shuffle(options); // シャッフルした配列を返す
+            }
+
+            function QuizApp() {
+                const [currentQuestionIndex, setCurrentQuestionIndex] =
+                    React.useState(0);
+                const [score, setScore] = React.useState(0);
+                const [showFeedback, setShowFeedback] = React.useState(false);
+                const [feedback, setFeedback] = React.useState("");
+                const [options, setOptions] = React.useState(
+                    getOptions(shuffledQuestions[0].word)
+                );
+                const [answeredQuestions, setAnsweredQuestions] = React.useState(
+                    new Set()
+                );
+
+                const handleAnswer = (option) => {
+                    const currentQuestion = shuffledQuestions[currentQuestionIndex];
+                    if (option === currentQuestion.word) {
+                        setScore(score + 1);
+                        setFeedback("Correct!");
+                    } else {
+                        setFeedback("Incorrect.");
+                    }
+                    setAnsweredQuestions(
+                        new Set(answeredQuestions).add(currentQuestionIndex)
+                    );
+                    setShowFeedback(true);
+                };
+
+                const handleNext = () => {
+                    setShowFeedback(false);
+                    setFeedback("");
+
+                    if (answeredQuestions.size >= questions.length) {
+                        alert(`Quiz finished! Your score is ${score}/${questions.length}`);
+                        setCurrentQuestionIndex(0);
+                        setScore(0);
+                        setAnsweredQuestions(new Set());
+                        setOptions(getOptions(shuffledQuestions[0].word));
+                    } else {
+                        let nextIndex;
+                        do {
+                            nextIndex = Math.floor(Math.random() * questions.length);
+                        } while (answeredQuestions.has(nextIndex));
+
+                        setCurrentQuestionIndex(nextIndex);
+                        setOptions(getOptions(shuffledQuestions[nextIndex].word));
+                    }
+                };
+
+                return (
+                    <div>
+                        <h1>WordMaster: PWT-R Edition</h1>
+                        <div>
+                            <h2>{shuffledQuestions[currentQuestionIndex].meaning}</h2>
+                            <div>
+                                {options.map((option, index) => (
+                                    <button key={index} onClick={() => handleAnswer(option)}>
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>
+                            {showFeedback && (
+                                <div className="feedback">
+                                    <p>{feedback}</p>
+                                    <button onClick={handleNext}>Next</button>
+                                </div>
+                            )}
+                        </div>
+                        <div className="progress">
+                            <p>
+                                Score: {score}/{questions.length}
+                            </p>
+                        </div>
+                    </div>
+                );
+            }
+
+            ReactDOM.render(<QuizApp />, document.getElementById("root"));
+        </script>
+</body>
+
+</html>
