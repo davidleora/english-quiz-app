@@ -10,26 +10,11 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            height: 100vh;
             background-color: #f5f5f5;
             margin: 0;
-        }
-        #container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            overflow-y: auto;
-            max-height: 90vh;
-        }
-        #words-list {
-            text-align: left;
-            margin: 0;
-            padding: 0;
-            list-style: none;
+            padding-top: 20px;
+            height: 100vh;
+            overflow: hidden;
         }
         button {
             padding: 10px 20px;
@@ -66,6 +51,63 @@
         .progress {
             margin-top: 20px;
         }
+        #container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            overflow-y: auto;
+            max-height: 90vh;
+            transition: all 0.5s ease;
+        }
+        #container.full-height {
+            height: 100vh;
+            max-height: 90%;
+        }
+        #words-list {
+            text-align: left;
+            margin: 0;
+            padding: 0 20px;
+            list-style-position: inside;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        #words-list li {
+            margin: 10px;
+            line-height: 1.5;
+        }
+        #back-button-container {
+            margin-top: 20px;
+        }
+        #flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #flashcard {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+        #flashcard-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        #flashcard-buttons button {
+            padding: 10px 20px;
+            min-width: 150px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -83,32 +125,41 @@
                 <h2 id="meaning"></h2>
                 <div id="options-container"></div>
             </div>
-        </div>      
-        <div id="feedback" class="feedback"></div>
-        <div id="next-button-container" class="feedback">
-            <button id="next-button" style="display:none;">Next</button>
+            <div id="feedback" class="feedback"></div>
+            <div id="next-button-container" class="feedback">
+                <button id="next-button" style="display:none;">Next</button>
+            </div>
+            <div class="progress">
+                <p id="score">Score: 0/0</p>
+                <p id="correct-answers">Correct Answers: 0</p>
+                <p id="questions-left">Number of questions left: 0</p>
+            </div>
+            <button onclick="showView('home-view')">Back to Home</button>
         </div>
-        
-        <div class="progress">
-            <p id="score">Score: 0/0</p>
-            <p id="correct-answers">Correct Answers: 0</p>
-            <p id="questions-left">Number of questions left: 0</p>
-        </div>
-        <button onclick="showView('home-view')">Back to Home</button>
 
         <div id="flashcards-view" class="hidden">
             <h1>Flashcards</h1>
-            <!-- Flashcards content here -->
+            <div id="flashcard-container">
+                <div id="flashcard">
+                    <p id="flashcard-text"></p>
+                </div>
+                <div id="flashcard-buttons">
+                    <button id="prev-flashcard-button">Prev</button>
+                    <button id="show-answer-button">Show Answer</button>
+                    <button id="next-flashcard-button">Next</button>
+                </div>
+            </div>
             <button onclick="showView('home-view')">Back to Home</button>
         </div>
 
         <div id="list-view" class="hidden">
             <h1>All Words List</h1>
-            <!-- List all words here -->
-            <ul id="words-list">
-                <!-- Words will be populated here by JavaScript -->
-            </ul>
-            <button onclick="showView('home-view')">Back to Home</button>
+            <ol id="words-list">
+                
+            </ol>
+            <div id="back-button-container">
+                <button onclick="showView('home-view')">Back to Home</button>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -446,8 +497,17 @@
             });
             document.getElementById(viewId).classList.remove('hidden');
 
+            const container = document.getElementById('container');
+            if(viewId === 'list-view') {
+                container.classList.add('full-height');
+            } else {
+                container.classList.remove('full-height');
+            }
+
             if(viewId === 'quiz-view') {
                 updateScore();
+            } else if (viewId === 'list-view') {
+                populateWordList();
             }
         }
 
@@ -462,6 +522,8 @@
         let shuffledQuestions = shuffle([...questions]);
         let currentQuestionIndex = 0;
         let score = 0;
+        let flashcardIndex = 0;
+        let showAnswer = false;
         let incorrectQuestions = new Set();
         const answeredQuestions = new Set();
 
@@ -559,14 +621,50 @@
             listContainer.innerHTML = "";
             questions.forEach(question => {
                 const listItem = document.createElement("li");
-                listItem.textContent = `${question.word}: ${question.meaning}`;
+                listItem.innerHTML = `<strong>${capitalizeFirstLetter(question.word)} :</strong> ${question.meaning}`;
                 listContainer.appendChild(listItem);
             });
         }
 
-        populateWordList();
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
-        document.getElementById("next-button").addEventListener("click", handleNext);
+        function displayFlashcard() {
+            const flashcardText = document.getElementById('flashcard-text');
+            const flashcard = questions[flashcardIndex];
+            if (showAnswer) {
+                flashcardText.textContent = flashcard.word;
+                document.getElementById('show-answer-button').textContent = 'Hide Answer';
+            } else {
+                flashcardText.textContent = flashcard.meaning;
+                document.getElementById('show-answer-button').textContent = 'Show Answer';
+            }
+        }
+        
+        function toggleAnswerFlashcard() {
+            showAnswer = !showAnswer;
+            displayFlashcard();
+        }
+        
+        function nextFlashcard() {
+            flashcardIndex = (flashcardIndex + 1) % questions.length;
+            showAnswer = false;
+            displayFlashcard();
+        }
+        
+        function prevFlashcard() {
+            flashcardIndex = (flashcardIndex - 1 + questions.length) % questions.length;
+            showAnswer = false;
+            displayFlashcard();
+        }
+
+        document.getElementById('show-answer-button').addEventListener('click', toggleAnswerFlashcard);
+        document.getElementById('next-flashcard-button').addEventListener('click', nextFlashcard);
+        document.getElementById('prev-flashcard-button').addEventListener('click', prevFlashcard);
+        
+        showView('home-view');
+        displayFlashcard();
         displayQuestion();
     </script>
 </body>
