@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WordMaster: PWT-R Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f5f5f5, #c3cfe2);
             margin: 0;
-            padding-top: 20px;
+            padding-top: 80px;
             height: 100vh;
             overflow: hidden;
-        }
+        }       
         button {
             padding: 10px 20px;
             margin: 5px;
@@ -24,9 +25,12 @@
             color: white;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         button:hover {
             background-color: #0056b3;
+            transform: translateY(-3px);
         }
         button:disabled {
             background-color: #cccccc;
@@ -34,7 +38,7 @@
             cursor: not-allowed;
         }
         .hidden {
-            display: none;
+            display: none !important;
         }
         .feedback {
             margin-top: 20px;
@@ -51,21 +55,34 @@
         .progress {
             margin-top: 20px;
         }
-        #container {
+        .fixed-bottom {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 90%;
             max-width: 600px;
+        }
+        #container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
             overflow-y: auto;
-            max-height: 90vh;
-            transition: all 0.5s ease;
+            max-height: calc(100vh - 120px);
+            margin-top: 120px;
         }
         #container.full-height {
             height: 100vh;
-            max-height: 90%;
+            max-height: 78%;
         }
         #words-list {
             text-align: left;
@@ -82,19 +99,20 @@
         #back-button-container {
             margin-top: 20px;
         }
-        #flashcard-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         #flashcard {
             margin: 20px;
             padding: 20px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 12px;
             width: 80%;
             max-width: 500px;
             text-align: center;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        #flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         #flashcard-buttons {
             display: flex;
@@ -108,15 +126,97 @@
             text-align: center;
             margin-bottom: 20px;
         }
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #header button {
+            font-size: 1.5em;
+            font-weight: bold;
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #header button:hover {
+            background-color: #004494;
+        }
+        #title {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+            font-size: 1.8em;
+        }
+        #num-questions-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
+        }
+        #num-questions-view h1 {
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        #num-questions-view label {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        #num-questions {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            width: 100px;
+            text-align: center;
+        }
+        #num-questions-view button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
+    <div id="header">
+        <button onclick="showView('home-view')">Home</button>
+        <h1 id="title" >WordMaster: PWT-R Edition</h1>
+    </div>
     <div id="container">
         <div id="home-view">
-            <h1>WordMaster: PWT-R Edition</h1>
-            <button onclick="showView('quiz-view')">Start Quiz</button>
-            <button onclick="showView('flashcards-view')">Flashcards</button>
-            <button onclick="showView('list-view')">Show All Words</button>
+            <h1>Home</h1>
+            <button onclick="showView('num-questions-view')" >Start Quiz</button>
+            <button onclick="showView('flashcards-view')" >Flashcards</button>
+            <button onclick="showView('list-view')" >Show All Words</button>
+        </div>
+
+        <div id="num-questions-view" class="hidden">
+            <h1>Select Number of Questions</h1>
+            <label for="num-questions" >Number of Questions:</label>
+            <select id="num-questions">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select>
+            <button onclick="startQuiz()" >Start Quiz</button>
+            <button onclick="showView('home-view')" >Back to Home</button>
         </div>
 
         <div id="quiz-view" class="hidden">
@@ -127,14 +227,14 @@
             </div>
             <div id="feedback" class="feedback"></div>
             <div id="next-button-container" class="feedback">
-                <button id="next-button" style="display:none;">Next</button>
+                <button id="next-button" style="display:none;" >Next</button>
             </div>
-            <div class="progress">
-                <p id="score">Score: 0/0</p>
-                <p id="correct-answers">Correct Answers: 0</p>
-                <p id="questions-left">Number of questions left: 0</p>
+            <button onclick="showView('home-view')" >Back to Home</button>
+            <div class="progress fixed-bottom">
+                <p id="score" >Score: 0/0</p>
+                <p id="correct-answers" >Correct Answers: 0</p>
+                <p id="questions-left" >Number of questions left: 0</p>
             </div>
-            <button onclick="showView('home-view')">Back to Home</button>
         </div>
 
         <div id="flashcards-view" class="hidden">
@@ -144,12 +244,12 @@
                     <p id="flashcard-text"></p>
                 </div>
                 <div id="flashcard-buttons">
-                    <button id="prev-flashcard-button">Prev</button>
-                    <button id="show-answer-button">Show Answer</button>
-                    <button id="next-flashcard-button">Next</button>
+                    <button id="prev-flashcard-button" >Prev</button>
+                    <button id="show-answer-button" >Show Answer</button>
+                    <button id="next-flashcard-button" >Next</button>
                 </div>
             </div>
-            <button onclick="showView('home-view')">Back to Home</button>
+            <button onclick="showView('home-view')" >Back to Home</button>
         </div>
 
         <div id="list-view" class="hidden">
@@ -158,7 +258,7 @@
                 
             </ol>
             <div id="back-button-container">
-                <button onclick="showView('home-view')">Back to Home</button>
+                <button onclick="showView('home-view')" >Back to Home</button>
             </div>
         </div>
     </div>
@@ -491,7 +591,26 @@
             },
         ];
 
+        let shuffledQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let flashcardIndex = 0;
+        let totalQuestions = 0;
+        let quizInProgress = false;
+        let showAnswer = false;
+        let incorrectQuestions = new Set();
+        const answeredQuestions = new Set();
+
+        document.getElementById('show-answer-button').addEventListener('click', toggleAnswerFlashcard);
+        document.getElementById('next-flashcard-button').addEventListener('click', nextFlashcard);
+        document.getElementById('prev-flashcard-button').addEventListener('click', prevFlashcard);
+        document.getElementById("next-button").addEventListener("click", handleNext);        
+
         function showView(viewId) {
+            if (viewId === 'home-view' && quizInProgress && answeredQuestions.size < totalQuestions) {
+                alert(`You need to finish the quiz before going back to home. Questions left: ${totalQuestions - answeredQuestions.size}`);
+                return;
+            }
             document.querySelectorAll('#container > div').forEach(div => {
                 div.classList.add('hidden');
             });
@@ -508,6 +627,10 @@
                 updateScore();
             } else if (viewId === 'list-view') {
                 populateWordList();
+            } else if (viewId === 'home-view') {
+                resetQuiz(); // ホーム画面に戻ったらクイズをリセットする
+            } else if (viewId === 'flashcards-view') {
+                displayFlashcard();
             }
         }
 
@@ -519,20 +642,30 @@
             return array;
         }
 
-        let shuffledQuestions = shuffle([...questions]);
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let flashcardIndex = 0;
-        let showAnswer = false;
-        let incorrectQuestions = new Set();
-        const answeredQuestions = new Set();
-
         function getOptions(correctWord) {
             const options = shuffle([...questions.map((q) => q.word)]).slice(0, 4);
             if (!options.includes(correctWord)) {
                 options[Math.floor(Math.random() * options.length)] = correctWord;
             }
             return shuffle(options);
+        }
+
+        function startQuiz() {
+            const numQuestionsSelect = document.getElementById("num-questions");
+            totalQuestions = parseInt(numQuestionsSelect.value);
+            shuffledQuestions = shuffle([...questions]).slice(0, totalQuestions);
+            resetQuiz();
+            showView('quiz-view');
+            quizInProgress = true;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            answeredQuestions.clear();
+            incorrectQuestions.clear();
+            displayQuestion();
+            quizInProgress = false;
         }
 
         function displayQuestion() {
@@ -569,35 +702,29 @@
         }
 
         function handleNext() {
-            if (answeredQuestions.size >= questions.length) {
-                alert(`Quiz finished! Your score is ${score}/${questions.length}.`);
+            if (answeredQuestions.size >= totalQuestions) {
+                alert(`Quiz finished! Your score is ${score}/${totalQuestions}.`);
                 resetQuiz();
+                showView('home-view');
             } else {
-                if (incorrectQuestions.size > 0) {
-                    shuffledQuestions = shuffle([...shuffledQuestions, ...Array.from(incorrectQuestions).map(index => questions[index])]);
-                    incorrectQuestions.clear();
-                } else {
-                    do {
-                        currentQuestionIndex = Math.floor(Math.random() * shuffledQuestions.length);
-                    } while (answeredQuestions.has(currentQuestionIndex) && answeredQuestions.size < questions.length);
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= totalQuestions) {
+                    currentQuestionIndex = 0;
+                }
+                while(answeredQuestions.has(currentQuestionIndex) && answeredQuestions.size < totalQuestions) {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex >= totalQuestions) {
+                        currentQuestionIndex = 0;
+                    }
                 }
                 displayQuestion();
             }
         }
 
         function updateScore() {
-            document.getElementById("score").textContent = `Score: ${score}/${questions.length}`;
+            document.getElementById("score").textContent = `Score: ${score}/${totalQuestions}`;
             document.getElementById("correct-answers").textContent = `Correct Answers: ${score}`;
-            document.getElementById("questions-left").textContent = `Number of questions left: ${questions.length - answeredQuestions.size}`;
-        }
-
-        function resetQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            answeredQuestions.clear();
-            incorrectQuestions.clear();
-            shuffledQuestions = shuffle([...questions]);
-            displayQuestion();
+            document.getElementById("questions-left").textContent = `Number of questions left: ${totalQuestions - answeredQuestions.size}`;
         }
 
         function disableButtons() {
@@ -658,14 +785,7 @@
             showAnswer = false;
             displayFlashcard();
         }
-
-        document.getElementById('show-answer-button').addEventListener('click', toggleAnswerFlashcard);
-        document.getElementById('next-flashcard-button').addEventListener('click', nextFlashcard);
-        document.getElementById('prev-flashcard-button').addEventListener('click', prevFlashcard);
-        
-        showView('home-view');
         displayFlashcard();
-        displayQuestion();
     </script>
 </body>
 </html>
