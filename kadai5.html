@@ -10,6 +10,7 @@
     <!-- URL: http://wordmaster-pwtr-edition.s3-website-us-east-1.amazonaws.com/ -->
 
     <style>
+        /* 全体のスタイル設定とレイアウト */
         body {
             font-family: 'Montserrat', sans-serif;
             display: flex;
@@ -21,6 +22,8 @@
             height: 100vh;
             overflow: hidden;
         }       
+
+        /* ボタンの基本スタイル */
         button {
             padding: 10px 20px;
             margin: 5px;
@@ -32,18 +35,26 @@
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
+
+        /* ボタンのホバー時のスタイル */
         button:hover {
             background-color: #0056b3;
             transform: translateY(-3px);
         }
+
+        /* ボタンの無効化時のスタイル */    
         button:disabled {
             background-color: #cccccc;
             color: #666666;
             cursor: not-allowed;
         }
+
+        /* コンテナ―を隠し要素のスタイル */
         .hidden {
             display: none !important;
         }
+
+        /* フィードバックメッセージのスタイル */
         .feedback {
             margin-top: 20px;
             min-height: 40px;
@@ -52,13 +63,19 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* 単語の意味のスタイル */
         .meaning {
             font-style: italic;
             color: #555;
         }
+
+        /* プログレスバーのスタイル */
         .progress {
             margin-top: 20px;
         }
+
+        /* 固定下部固定のスタイル */
         .fixed-bottom {
             position: fixed;
             bottom: 20px;
@@ -72,6 +89,8 @@
             width: 90%;
             max-width: 600px;
         }
+
+        /* メインコンテナーのスタイル */
         #container {
             background: white;
             padding: 20px;
@@ -84,10 +103,14 @@
             max-height: calc(100vh - 120px);
             margin-top: 120px;
         }
+
+        /* コンテナーの高さを100%にするスタイル */
         #container.full-height {
             height: 100%;
             max-height: 70%;
         }
+
+        /* 単語リストのスタイル */
         #words-list {
             text-align: left;
             margin: 0;
@@ -96,13 +119,19 @@
             flex-grow: 1;
             overflow-y: auto;
         }
+
+        /* 単語リストの項目のスタイル */
         #words-list li {
             margin: 10px;
             line-height: 1.5;
         }
+
+        /* 戻るボタンのコンテナーのスタイル */
         #back-button-container {
             margin-top: 20px;
         }
+
+        /* フラッシュカードのスタイル */
         #flashcard {
             margin: 20px;
             padding: 20px;
@@ -113,23 +142,31 @@
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
+
+        /* フラッシュカードのコンテナーのスタイル */
         #flashcard-container {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
+        /* フラッシュカードのボタンのスタイル */
         #flashcard-buttons {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
         }
+
+        /* フラッシュカードのボタンのスタイル */
         #flashcard-buttons button {
             padding: 10px 20px;
             min-width: 150px;
             text-align: center;
             margin-bottom: 20px;
         }
+
+        /* ヘッダーのスタイル */
         #header {
             display: flex;
             justify-content: space-between;
@@ -145,6 +182,8 @@
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* ヘッダーのボタンのスタイル */
         #header button {
             font-size: 1.5em;
             font-weight: bold;
@@ -155,15 +194,21 @@
             border-radius: 8px;
             cursor: pointer;
         }
+
+        /* ヘッダーのボタンのホバー時のスタイル */
         #header button:hover {
             background-color: #004494;
         }
+
+        /* タイトルのスタイル */
         #title {
             flex-grow: 1;
             text-align: center;
             margin: 0;
             font-size: 1.8em;
         }
+
+        /* 問題数選択画面のスタイル */
         #num-questions-view {
             display: flex;
             flex-direction: column;
@@ -172,14 +217,20 @@
             height: 100%;
             padding: 20px;
         }
+
+        /* 問題数選択画面の見出しスタイル */
         #num-questions-view h1 {
             margin-bottom: 20px;
             font-size: 2em;
         }
+
+        /* 問題数選択画面のラベルのスタイル */
         #num-questions-view label {
             margin-bottom: 10px;
             font-size: 1.2em;
         }
+
+        /* 問題数選択画面のセレクトボックスのスタイル */
         #num-questions {
             padding: 10px;
             font-size: 1em;
@@ -189,6 +240,8 @@
             width: 100px;
             text-align: center;
         }
+
+        /* 問題数選択画面のボタンのスタイル */
         #num-questions-view button {
             font-size: 1.2em;
             padding: 10px 20px;
@@ -198,76 +251,78 @@
 </head>
 <body>
     <div id="header">
-        <button onclick="showView('home-view')">Home</button>
-        <h1 id="title" >WordMaster: PWT-R Edition</h1>
+        <button onclick="showView('home-view')">Home</button> <!-- ホーム画面のボタン -->
+        <h1 id="title" >WordMaster: PWT-R Edition</h1> <!-- タイトル -->
     </div>
+
     <div id="container">
-        <div id="home-view">
+        <div id="home-view"> <!-- ホーム画面 -->
             <h1>Home</h1>
-            <button onclick="showView('num-questions-view')" >Start Quiz</button>
-            <button onclick="showView('flashcards-view')" >Flashcards</button>
-            <button onclick="showView('list-view')" >Show All Words</button>
+            <button onclick="showView('num-questions-view')" >Start Quiz</button> <!-- クイズ開始画面のボタン -->
+            <button onclick="showView('flashcards-view')" >Flashcards</button> <!-- フラッシュカード画面のボタン -->
+            <button onclick="showView('list-view')" >Show All Words</button> <!-- 単語リスト画面のボタン -->
         </div>
 
-        <div id="num-questions-view" class="hidden">
+        <div id="num-questions-view" class="hidden"> <!-- 問題数選択画面 -->
             <h1>Select Number of Questions</h1>
-            <label for="num-questions" >Number of Questions:</label>
-            <select id="num-questions">
+            <label for="num-questions" >Number of Questions:</label> <!-- 問題数のラベル -->
+            <select id="num-questions"> <!-- 問題数選択のドロップダウン -->
                 <option value="20">20</option>
                 <option value="40">40</option>
                 <option value="60">60</option>
                 <option value="80">80</option>
                 <option value="100">100</option>
             </select>
-            <button onclick="startQuiz()" >Start Quiz</button>
-            <button onclick="showView('home-view')" >Back to Home</button>
+            <button onclick="startQuiz()" >Start Quiz</button> <!-- クイズ開始のボタン -->
+            <button onclick="showView('home-view')" >Back to Home</button> <!-- ホーム画面に戻るボタン -->
         </div>
 
-        <div id="quiz-view" class="hidden">
+        <div id="quiz-view" class="hidden"> <!-- クイズ画面 -->
             <h1>Quiz</h1>
             <div id="question-container">
-                <h2 id="meaning"></h2>
-                <div id="options-container"></div>
+                <h2 id="meaning"></h2> <!-- 問題の意味の表示 -->
+                <div id="options-container"></div> <!-- 選択肢のコンテナー -->
             </div>
-            <div id="feedback" class="feedback"></div>
+            <div id="feedback" class="feedback"></div> <!-- フィードバックメッセージ -->
             <div id="next-button-container" class="feedback">
-                <button id="next-button" style="display:none;" >Next</button>
+                <button id="next-button" style="display:none;" >Next</button> <!-- 次へのボタン -->
             </div>
-            <button onclick="showView('home-view')" >Back to Home</button>
-            <div class="progress fixed-bottom">
-                <p id="score" >Score: 0/0</p>
-                <p id="correct-answers" >Correct Answers: 0</p>
-                <p id="questions-left" >Number of questions left: 0</p>
+            <button onclick="showView('home-view')" >Back to Home</button> <!-- ホーム画面に戻るボタン -->
+            <div class="progress fixed-bottom"> <!-- プログレスバー -->
+                <p id="score" >Score: 0/0</p> <!-- スコア表示 -->
+                <p id="correct-answers" >Correct Answers: 0</p> <!-- 正解数表示 -->
+                <p id="questions-left" >Number of questions left: 0</p> <!-- 残り問題数表示 -->
             </div>
         </div>
 
-        <div id="flashcards-view" class="hidden">
+        <div id="flashcards-view" class="hidden"> <!-- フラッシュカード画面 -->
             <h1>Flashcards</h1>
-            <div id="flashcard-container">
+            <div id="flashcard-container"> <!-- フラッシュカードのコンテナー -->
                 <div id="flashcard">
-                    <p id="flashcard-text"></p>
+                    <p id="flashcard-text"></p> <!-- フラッシュカードのテキスト -->
                 </div>
                 <div id="flashcard-buttons">
-                    <button id="prev-flashcard-button" >Prev</button>
-                    <button id="show-answer-button" >Show Answer</button>
-                    <button id="next-flashcard-button" >Next</button>
+                    <button id="prev-flashcard-button" >Prev</button> <!-- 前のフラッシュカードボタン -->
+                    <button id="show-answer-button" >Show Answer</button> <!-- 答えを表示するボタン -->
+                    <button id="next-flashcard-button" >Next</button> <!-- 次のフラッシュカードボタン -->
                 </div>
             </div>
-            <button onclick="showView('home-view')" >Back to Home</button>
+            <button onclick="showView('home-view')" >Back to Home</button> <!-- ホーム画面に戻るボタン -->
         </div>
 
-        <div id="list-view" class="hidden">
-            <h1>All Words List</h1>
-            <ol id="words-list">
-                
+        <div id="list-view" class="hidden"> <!-- 単語リスト画面 -->
+            <h1>All Words List</h1> 
+            <ol id="words-list"> <!-- 単語リスト -->
+                <!-- ここに単語リストが表示される -->
             </ol>
             <div id="back-button-container">
-                <button onclick="showView('home-view')" >Back to Home</button>
+                <button onclick="showView('home-view')" >Back to Home</button> <!-- ホーム画面に戻るボタン -->
             </div>
         </div>
     </div>
     <script type="text/javascript">
-        const questions = [
+        // 単語と意味のリストを定義する
+        const questions = [ 
             { word: "prefix", meaning: "letters that come before a root word" },
             { word: "suffix", meaning: "letters that come after a root word" },
             {
@@ -595,201 +650,219 @@
             },
         ];
 
-        let shuffledQuestions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let flashcardIndex = 0;
-        let totalQuestions = 0;
-        let quizInProgress = false;
-        let showAnswer = false;
-        let incorrectQuestions = new Set();
-        const answeredQuestions = new Set();
+        // 配列をシャッフルする関数。Fisher-Yatesアルゴリズムを使用している。
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) { // 配列の末尾から開始する
+                const j = Math.floor(Math.random() * (i + 1)); // 0からiまでの乱数を生成
+                [array[i], array[j]] = [array[j], array[i]]; // 要素を入れ替える。このプロセスを配列の最初の要素まで繰り返す
+            }
+            return array; // シャッフルされた配列を返す
+        }
 
+        let shuffledQuestions = []; // シャッフルされた質問リストを格納する変数
+        let currentQuestionIndex = 0; // 現在の質問のインデックスを格納する変数
+        let score = 0; // スコアを格納する変数
+        let totalQuestions = 0; // 質問の総数を格納する変数
+        let quizInProgress = false; // クイズが進行中かどうかを示す変数
+        let incorrectQuestions = new Set(); // 不正解の質問を格納する変数
+        const answeredQuestions = new Set(); // 正解した質問を格納する変数
+
+        // クイズの選択肢を取得する関数
+        function getOptions(correctWord) {
+            const options = shuffle([...questions.map((q) => q.word)]).slice(0, 4); // 質問リストからランダムに４つの選択肢を取得する
+            if (!options.includes(correctWord)) { // 正解の単語が含まれていない場合
+                options[Math.floor(Math.random() * options.length)] = correctWord; // ランダムな位置に正解の単語を挿入する
+            }
+            return shuffle(options); // 選択肢をシャッフルして返す
+        }
+
+        // 質問を表示する関数
+        function displayQuestion() {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex]; // 現在の質問を取得する
+            document.getElementById("meaning").textContent = currentQuestion.meaning; // 質問の意味を表示する
+            const optionsContainer = document.getElementById("options-container"); // 選択肢のコンテナーを取得する
+            optionsContainer.innerHTML = ""; // 選択肢のコンテナーをクリアする
+            const options = getOptions(currentQuestion.word); // 選択肢を取得する
+            options.forEach((option) => {
+                const button = document.createElement("button"); // ボタンを作成する
+                button.textContent = option; // ボタンのテキストを設定する
+                button.addEventListener("click", () => handleAnswer(option)); // ボタンがクリックされたときの処理を設定する
+                optionsContainer.appendChild(button); // ボタンを選択肢のコンテナーに追加する
+            });
+            document.getElementById("feedback").textContent = ""; // フィードバックメッセージをクリアする
+            document.getElementById("next-button").style.display = "none"; // 次へのボタンを非表示にする
+            enableButtons(); // ボタンを有効にする
+        }
+
+        // 回答を処理する関数
+        function handleAnswer(option) {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex]; // 現在の質問を取得する
+            const feedback = document.getElementById("feedback"); // フィードバックメッセージを取得する
+            if (option === currentQuestion.word) { // 選択肢が正解の単語と一致する場合
+                score++; // スコアをインクリメントする
+                feedback.textContent = "Correct!"; // 正解のメッセージを表示する
+                answeredQuestions.add(currentQuestionIndex); // 正解した問題を正解の配列に追加する
+            } else {
+                feedback.textContent = `Incorrect! The correct answer is "${currentQuestion.word}".`;
+                incorrectQuestions.add(currentQuestionIndex); // 不正解の問題を不正解の配列に追加する
+            }
+            document.getElementById("next-button").style.display = "block"; // 次へのボタンを表示する
+            disableButtons(); // ボタンを無効にする
+            updateScore(); // スコアを更新する
+        }
+
+        // 次の質問を表示する関数
+        function handleNext() {
+            if (answeredQuestions.size >= totalQuestions) { // 全ての質問に回答した場合
+                alert(`Quiz finished! Your score is ${score}/${totalQuestions}.`); // クイズが終了したことを知らせるアラートを表示する
+                resetQuiz(); // クイズをリセットする
+                showView('home-view'); // ホーム画面に戻る
+            } else {
+                currentQuestionIndex++; // 現在の質問のインデックスをインクリメントする
+                if (currentQuestionIndex >= totalQuestions) { // インデックスが質問の総数を超えた場合
+                    currentQuestionIndex = 0; // インデックスをリセットする
+                }
+                while(answeredQuestions.has(currentQuestionIndex) && answeredQuestions.size < totalQuestions) { // すでに回答した質問の場合
+                    currentQuestionIndex++; // 次の質問に進む
+                    if (currentQuestionIndex >= totalQuestions) { // インデックスが質問の総数を超えた場合
+                        currentQuestionIndex = 0; // インデックスをリセットする
+                    }
+                }
+                displayQuestion(); // 質問を表示する
+            }
+        }
+
+        // スコアを更新する関数
+        function updateScore() {
+            document.getElementById("score").textContent = `Score: ${score}/${totalQuestions}`; // スコアを表示する
+            document.getElementById("correct-answers").textContent = `Correct Answers: ${score}`; // 正解数を表示する
+            document.getElementById("questions-left").textContent = `Number of questions left: ${totalQuestions - answeredQuestions.size}`; // 残り問題数を表示する
+        }
+
+        // クイズをリセットする関数
+        function resetQuiz() {
+            currentQuestionIndex = 0; // 現在の質問のインデックスをリセットする
+            score = 0; // スコアをリセットする
+            answeredQuestions.clear(); // 正解した質問配列をクリアする
+            incorrectQuestions.clear(); // 不正解の質問配列をクリアする
+            displayQuestion(); // 質問を表示する
+            quizInProgress = false; // クイズが進行中でないことを示す
+        }
+
+        // ボタンを無効にする関数
+        function disableButtons() {
+            const buttons = document.querySelectorAll("#options-container button"); // ボタンを取得する
+            buttons.forEach(button => { // 各ボタンに対して
+                button.disabled = true; // 無効にする
+                button.classList.add('disabled'); // 無効スタイルを適用する
+            });
+        }
+
+        // ボタンを有効にする関数
+        function enableButtons() {
+            const buttons = document.querySelectorAll("#options-container button"); // ボタンを取得する
+            buttons.forEach(button => { // 各ボタンに対して
+                button.disabled = false; // 有効にする
+                button.classList.remove('disabled'); // 無効スタイルを削除する
+            });
+        }
+
+        // ビューを切り替える関数
+        function showView(viewId) {
+            if (viewId === 'home-view' && quizInProgress && answeredQuestions.size < totalQuestions) { // クイズが進行中で、全ての質問に回答していない場合
+                alert(`You need to finish the quiz before going back to home. Questions left: ${totalQuestions - answeredQuestions.size}`); // クイズを終了するように促すアラートを表示する
+                return;
+            }
+            document.querySelectorAll('#container > div').forEach(div => { // コンテナ内の全てのdiv要素に対して
+                div.classList.add('hidden'); // hiddenクラスを追加する
+            });
+            document.getElementById(viewId).classList.remove('hidden'); // 指定されたビューのhiddenクラスを削除する
+
+            const container = document.getElementById('container'); // コンテナを取得する
+            if(viewId === 'list-view') { // リストビューの場合
+                container.classList.add('full-height'); // コンテナの高さを100%にする
+            } else {
+                container.classList.remove('full-height'); // それ以外の場合はコンテナの高さをリセットする
+            }
+
+            if(viewId === 'quiz-view') { // クイズビューの場合
+                updateScore(); // スコアを更新する
+            } else if (viewId === 'list-view') { // リストビューの場合
+                populateWordList(); // 単語リストを表示する
+            } else if (viewId === 'home-view') { // ホームビューの場合
+                resetQuiz(); // ホーム画面に戻ったらクイズをリセットする
+            } else if (viewId === 'flashcards-view') { // フラッシュカードビューの場合
+                displayFlashcard(); // フラッシュカードを表示する
+            }
+        }
+
+        // クイズを開始する関数
+        function startQuiz() {
+            const numQuestionsSelect = document.getElementById("num-questions"); // 問題数のセレクトボックスを取得する
+            totalQuestions = parseInt(numQuestionsSelect.value); // 選択された問題数を取得する
+            shuffledQuestions = shuffle([...questions]).slice(0, totalQuestions); // 質問リストをシャッフルして指定された問題数だけ取得する
+            resetQuiz(); // クイズをリセットする
+            showView('quiz-view'); // クイズビューを表示する
+            quizInProgress = true; // クイズが進行中であることを示す
+        }
+
+        let flashcardIndex = 0; // フラッシュカードのインデックスを格納する変数
+        let showAnswer = false; // 答えを表示するフラグ
+
+        // フラッシュカードを表示する関数
+        function displayFlashcard() {
+            const flashcardText = document.getElementById('flashcard-text'); // フラッシュカードのテキストを取得する
+            const flashcard = questions[flashcardIndex]; // 現在のフラッシュカードを取得する
+            if (showAnswer) { // 答えを表示する場合
+                flashcardText.textContent = flashcard.word; // フラッシュカードの単語を表示する
+                document.getElementById('show-answer-button').textContent = 'Hide Answer'; // 答えを非表示にするボタンのテキストを変更する
+            } else { // 答えを非表示にする場合
+                flashcardText.textContent = flashcard.meaning; // フラッシュカードの意味を表示する
+                document.getElementById('show-answer-button').textContent = 'Show Answer'; // 答えを表示するボタンのテキストを変更する
+            }
+        }
+
+        // 次のフラッシュカードを表示する関数
+        function nextFlashcard() {
+            flashcardIndex = (flashcardIndex + 1) % questions.length; // フラッシュカードのインデックスをインクリメントする
+            showAnswer = false; // 答えを非表示にする
+            displayFlashcard(); // フラッシュカードを表示する
+        }
+        
+        // 前のフラッシュカードを表示する関数
+        function prevFlashcard() { 
+            flashcardIndex = (flashcardIndex - 1 + questions.length) % questions.length; // フラッシュカードのインデックスをデクリメントする
+            showAnswer = false; // 答えを非表示にする
+            displayFlashcard(); // フラッシュカードを表示する
+        }
+
+        // 答えを表示するボタンを切り替える関数
+        function toggleAnswerFlashcard() {
+            showAnswer = !showAnswer; // 答えを表示するフラグを切り替える
+            displayFlashcard(); // フラッシュカードを表示する
+        }
+
+        // 単語リストを表示する関数
+        function populateWordList() {
+            const listContainer = document.getElementById("words-list"); // 単語リストのコンテナーを取得する
+            listContainer.innerHTML = ""; // 単語リストをクリアする
+            questions.forEach(question => { // 全ての質問に対して
+                const listItem = document.createElement("li"); // リストアイテムを作成する
+                listItem.innerHTML = `<strong>${capitalizeFirstLetter(question.word)} :</strong> ${question.meaning}`; // リストアイテムのテキストを設定する
+                listContainer.appendChild(listItem); // リストアイテムを単語リストのコンテナーに追加する
+            });
+        }
+
+        // 文字列の最初の文字を大文字にする関数
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1); // 最初の文字を大文字にして残りの文字列と結合して返す
+        }
+
+        // 初期化の処理
         document.getElementById('show-answer-button').addEventListener('click', toggleAnswerFlashcard);
         document.getElementById('next-flashcard-button').addEventListener('click', nextFlashcard);
         document.getElementById('prev-flashcard-button').addEventListener('click', prevFlashcard);
-        document.getElementById("next-button").addEventListener("click", handleNext);        
-
-        function showView(viewId) {
-            if (viewId === 'home-view' && quizInProgress && answeredQuestions.size < totalQuestions) {
-                alert(`You need to finish the quiz before going back to home. Questions left: ${totalQuestions - answeredQuestions.size}`);
-                return;
-            }
-            document.querySelectorAll('#container > div').forEach(div => {
-                div.classList.add('hidden');
-            });
-            document.getElementById(viewId).classList.remove('hidden');
-
-            const container = document.getElementById('container');
-            if(viewId === 'list-view') {
-                container.classList.add('full-height');
-            } else {
-                container.classList.remove('full-height');
-            }
-
-            if(viewId === 'quiz-view') {
-                updateScore();
-            } else if (viewId === 'list-view') {
-                populateWordList();
-            } else if (viewId === 'home-view') {
-                resetQuiz(); // ホーム画面に戻ったらクイズをリセットする
-            } else if (viewId === 'flashcards-view') {
-                displayFlashcard();
-            }
-        }
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function getOptions(correctWord) {
-            const options = shuffle([...questions.map((q) => q.word)]).slice(0, 4);
-            if (!options.includes(correctWord)) {
-                options[Math.floor(Math.random() * options.length)] = correctWord;
-            }
-            return shuffle(options);
-        }
-
-        function startQuiz() {
-            const numQuestionsSelect = document.getElementById("num-questions");
-            totalQuestions = parseInt(numQuestionsSelect.value);
-            shuffledQuestions = shuffle([...questions]).slice(0, totalQuestions);
-            resetQuiz();
-            showView('quiz-view');
-            quizInProgress = true;
-        }
-
-        function resetQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            answeredQuestions.clear();
-            incorrectQuestions.clear();
-            displayQuestion();
-            quizInProgress = false;
-        }
-
-        function displayQuestion() {
-            const currentQuestion = shuffledQuestions[currentQuestionIndex];
-            document.getElementById("meaning").textContent = currentQuestion.meaning;
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-            const options = getOptions(currentQuestion.word);
-            options.forEach((option) => {
-                const button = document.createElement("button");
-                button.textContent = option;
-                button.addEventListener("click", () => handleAnswer(option));
-                optionsContainer.appendChild(button);
-            });
-            document.getElementById("feedback").textContent = "";
-            document.getElementById("next-button").style.display = "none";
-            enableButtons();
-        }
-
-        function handleAnswer(option) {
-            const currentQuestion = shuffledQuestions[currentQuestionIndex];
-            const feedback = document.getElementById("feedback");
-            if (option === currentQuestion.word) {
-                score++;
-                feedback.textContent = "Correct!";
-                answeredQuestions.add(currentQuestionIndex); // 正解した問題を配列から削除する
-            } else {
-                feedback.textContent = `Incorrect! The correct answer is "${currentQuestion.word}".`;
-                incorrectQuestions.add(currentQuestionIndex); // 不正解の問題を配列に追加する
-            }
-            document.getElementById("next-button").style.display = "block";
-            disableButtons();
-            updateScore();
-        }
-
-        function handleNext() {
-            if (answeredQuestions.size >= totalQuestions) {
-                alert(`Quiz finished! Your score is ${score}/${totalQuestions}.`);
-                resetQuiz();
-                showView('home-view');
-            } else {
-                currentQuestionIndex++;
-                if (currentQuestionIndex >= totalQuestions) {
-                    currentQuestionIndex = 0;
-                }
-                while(answeredQuestions.has(currentQuestionIndex) && answeredQuestions.size < totalQuestions) {
-                    currentQuestionIndex++;
-                    if (currentQuestionIndex >= totalQuestions) {
-                        currentQuestionIndex = 0;
-                    }
-                }
-                displayQuestion();
-            }
-        }
-
-        function updateScore() {
-            document.getElementById("score").textContent = `Score: ${score}/${totalQuestions}`;
-            document.getElementById("correct-answers").textContent = `Correct Answers: ${score}`;
-            document.getElementById("questions-left").textContent = `Number of questions left: ${totalQuestions - answeredQuestions.size}`;
-        }
-
-        function disableButtons() {
-            const buttons = document.querySelectorAll("#options-container button");
-            buttons.forEach(button => {
-                button.disabled = true;
-                button.classList.add('disabled');
-            });
-        }
-
-        function enableButtons() {
-            const buttons = document.querySelectorAll("#options-container button");
-            buttons.forEach(button => {
-                button.disabled = false;
-                button.classList.remove('disabled');
-            });
-        }
-
-        function populateWordList() {
-            const listContainer = document.getElementById("words-list");
-            listContainer.innerHTML = "";
-            questions.forEach(question => {
-                const listItem = document.createElement("li");
-                listItem.innerHTML = `<strong>${capitalizeFirstLetter(question.word)} :</strong> ${question.meaning}`;
-                listContainer.appendChild(listItem);
-            });
-        }
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        function displayFlashcard() {
-            const flashcardText = document.getElementById('flashcard-text');
-            const flashcard = questions[flashcardIndex];
-            if (showAnswer) {
-                flashcardText.textContent = flashcard.word;
-                document.getElementById('show-answer-button').textContent = 'Hide Answer';
-            } else {
-                flashcardText.textContent = flashcard.meaning;
-                document.getElementById('show-answer-button').textContent = 'Show Answer';
-            }
-        }
-        
-        function toggleAnswerFlashcard() {
-            showAnswer = !showAnswer;
-            displayFlashcard();
-        }
-        
-        function nextFlashcard() {
-            flashcardIndex = (flashcardIndex + 1) % questions.length;
-            showAnswer = false;
-            displayFlashcard();
-        }
-        
-        function prevFlashcard() {
-            flashcardIndex = (flashcardIndex - 1 + questions.length) % questions.length;
-            showAnswer = false;
-            displayFlashcard();
-        }
-        displayFlashcard();
+        document.getElementById("next-button").addEventListener("click", handleNext);     
     </script>
 </body>
 </html>
