@@ -2,6 +2,11 @@
 
 このリポジトリには、英語学習のためのクイズアプリ「WordMaster: PWT-R Edition」のコードとリソースが含まれています。このアプリは、インタラクティブなクイズを通じてユーザーが英語のスキルを向上させることを目的としています。
 
+## 公開URL
+
+このアプリケーションはAmazon S3を使用してWeb公開されています。以下のURLからアクセスできます：
+[WordMaster: PWT-R Edition](http://wordmaster-pwtr-edition.s3-website-us-east-1.amazonaws.com/)
+
 ## プロジェクト概要
 
 「WordMaster: PWT-R Edition」は、英語の語彙、文法、読解力をテストして向上させるための楽しい教育ツールです。さまざまなクイズタイプを提供し、ユーザーの学習を支援します。
@@ -28,11 +33,6 @@
 2. クイズのカテゴリを選択します。
 3. クイズに出される質問に答えます。
 4. 結果を確認し、進捗を追跡します。
-
-## 公開URL
-
-このアプリケーションはAmazon S3を使用してWeb公開されています。以下のURLからアクセスできます：
-[WordMaster: PWT-R Edition](http://wordmaster-pwtr-edition.s3-website-us-east-1.amazonaws.com/)
 
 ## 貢献
 
